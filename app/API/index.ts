@@ -29,3 +29,16 @@ export async function fetchCharacters(): Promise<CharacterObj[]> {
     return err.message;
   }
 }
+
+export async function fetchOne(
+  id: string | undefined
+): Promise<CharacterObj | null> {
+  try {
+    const character = await db.character.findUnique({
+      where: { id },
+    });
+    return character;
+  } catch (err: any) {
+    return err.message;
+  }
+}
