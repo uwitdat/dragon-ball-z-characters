@@ -1,18 +1,23 @@
 import React from "react";
-import type { MetaFunction } from "@remix-run/node";
-import { useState, useMemo } from "react";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
-import Character from "~/components/character";
-import { CharacterObj, CharacterData } from "~/types";
+import { CharacterObj, CharacterData, PaginatedChars } from "~/types";
 import { fetchCharacters, fetchTableData } from "~/API";
+import { paginate } from "../utils/helpers.js";
+import { Page, PageNavigation } from "~/components/pagination";
 
-export const loader = async (): Promise<CharacterData | any> => {
+export const loader: LoaderFunction = async (): Promise<
+  CharacterData | any
+> => {
   let data;
 
   try {
-    const characters = await fetchCharacters();
+    const charactersData = await fetchCharacters();
+    const { characters, next } = charactersData;
     const { races, genders } = await fetchTableData();
-    data = { characters, races, genders };
+
+    data = { characters, races, genders, next };
   } catch (err: any) {
     console.log(err.message);
   }
@@ -20,56 +25,15 @@ export const loader = async (): Promise<CharacterData | any> => {
 };
 
 const Landing: React.FC = () => {
+  const CHARS_PER_PAGE = 6;
+
   const [search, setSearch] = useState<string>("");
-  const { characters, races, genders } = useLoaderData();
+  let { characters, races, genders } = useLoaderData();
 
-  const [filterRaceValue, setFilterRaceValue] = useState<string | null>(null);
-  const [filterGenderValue, setFilterGenderValue] = useState<string | null>(
-    null
-  );
-
-  const handleSetRaceFilter = (value: string) => {
-    if (filterRaceValue === value) {
-      setFilterRaceValue(null);
-    } else {
-      setFilterRaceValue(value);
-    }
-  };
-
-  const handleSetGenderFilter = (value: string) => {
-    if (filterGenderValue === value) {
-      setFilterGenderValue(null);
-    } else {
-      setFilterGenderValue(value);
-    }
-  };
-
-  const dbzCharacters = useMemo<CharacterObj[]>(() => {
-    if (filterGenderValue && filterRaceValue) {
-      return characters.filter(
-        (char: CharacterObj) =>
-          char.race === filterRaceValue && char.gender === filterGenderValue
-      );
-    } else if (filterGenderValue && !filterRaceValue) {
-      return characters.filter(
-        (char: CharacterObj) => char.gender === filterGenderValue
-      );
-    } else if (!filterGenderValue && filterRaceValue) {
-      return characters.filter(
-        (char: CharacterObj) => char.race === filterRaceValue
-      );
-    } else {
-      return characters;
-    }
-  }, [filterGenderValue, filterRaceValue]);
-
-  const dbzCharsFilterByName = useMemo<CharacterObj[]>(() => {
-    return search.length > 0 && dbzCharacters
-      ? dbzCharacters.filter(({ name }: CharacterObj) =>
-          name!.toLowerCase().includes(search.toLowerCase())
-        )
-      : dbzCharacters;
-  }, [search, dbzCharacters]);
+  const paginatedChars: PaginatedChars[] = paginate(characters, CHARS_PER_PAGE);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const lastPageNumber = paginatedChars[paginatedChars.length - 1].page;
+  const pages = paginatedChars.map((data) => data.page);
 
   return (
     <div>
@@ -80,41 +44,19 @@ const Landing: React.FC = () => {
           setSearch(e.target.value)
         }
       />
-      <div>
-        <h3>Filters:</h3>
-        <h5>Race:</h5>
-        {races.map((race: string) => (
-          <p
-            className="inline"
-            key={race}
-            onClick={() => handleSetRaceFilter(race)}
-          >
-            {" "}
-            {race}
-          </p>
-        ))}
-        <h5>Gender:</h5>
-        {genders.map((gender: string) => (
-          <p
-            className="inline"
-            key={gender}
-            onClick={() => handleSetGenderFilter(gender)}
-          >
-            {" "}
-            {gender}
-          </p>
-        ))}
-      </div>
 
-      {dbzCharsFilterByName.length ? (
-        <ul className="relative flex flex-wrap gap-4 p-5">
-          {dbzCharsFilterByName.map((character: CharacterObj) => (
-            <Character character={character} key={character.id} />
-          ))}
-        </ul>
-      ) : (
-        <h5>No match found.</h5>
-      )}
+      <Page
+        chars={paginatedChars[currentPage - 1].posts}
+        races={races}
+        genders={genders}
+        pageNum={currentPage}
+      />
+      <PageNavigation
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        lastPageNumber={lastPageNumber}
+        pages={pages}
+      />
     </div>
   );
 };

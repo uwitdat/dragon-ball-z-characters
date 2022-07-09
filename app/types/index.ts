@@ -26,3 +26,14 @@ export interface TableData {
   races: (string | null)[];
   genders: (string | null)[];
 }
+
+export interface FetchObject {
+  characters: CharacterObj[];
+  next: string | null;
+}
+
+export interface PaginatedChars {
+  posts: CharacterObj[];
+  page: number;
+  next: boolean;
+}
