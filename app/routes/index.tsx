@@ -44,12 +44,11 @@ const Landing: React.FC = () => {
       setSearch("");
       fetcher.data = undefined;
     } else {
-      fetcher.load(`/query?q=${value}`);
       setSearch(value);
+      fetcher.load(`/query?q=${value}`);
     }
   };
 
-  const queryRes = fetcher.data;
   return (
     <div>
       <input
@@ -59,7 +58,7 @@ const Landing: React.FC = () => {
         }
         value={search}
       />
-      <Search result={queryRes} search={search} />
+      {search.length > 0 && <Search result={fetcher.data} />}
 
       <Page
         chars={paginatedChars[currentPage - 1].posts}

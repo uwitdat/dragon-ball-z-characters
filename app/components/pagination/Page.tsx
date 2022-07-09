@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { CharacterObj } from "~/types";
 import Character from "~/components/character";
+import SearchFilters from "../search-filters";
 
 interface PageProps {
   chars: CharacterObj[];
@@ -52,29 +53,12 @@ const Page: React.FC<PageProps> = ({ chars, races, genders, pageNum }) => {
 
   return (
     <div>
-      <h3>Filters:</h3>
-      <h5>Race:</h5>
-      {races.map((race: string) => (
-        <p
-          className="inline"
-          key={race}
-          onClick={() => handleSetRaceFilter(race)}
-        >
-          {" "}
-          {race}
-        </p>
-      ))}
-      <h5>Gender:</h5>
-      {genders.map((gender: string) => (
-        <p
-          className="inline"
-          key={gender}
-          onClick={() => handleSetGenderFilter(gender)}
-        >
-          {" "}
-          {gender}
-        </p>
-      ))}
+      <SearchFilters
+        races={races}
+        genders={genders}
+        handleSetRaceFilter={handleSetRaceFilter}
+        handleSetGenderFilter={handleSetGenderFilter}
+      />
       {dbzChars.length ? (
         <ul className="relative flex flex-wrap gap-4 p-5">
           {dbzChars.map((character: CharacterObj) => (
