@@ -1,9 +1,6 @@
 import { Link } from "@remix-run/react";
 import React from "react";
-
-interface SearchProps {
-  result: [] | undefined;
-}
+import { SearchProps } from "~/types";
 
 const Search: React.FC<SearchProps> = ({ result }) => {
   return (
@@ -16,7 +13,7 @@ const Search: React.FC<SearchProps> = ({ result }) => {
             </Link>
           ))
         ) : (
-          <p>No matches found :(</p>
+          <p>No matches found.</p>
         ))}
     </ul>
   );

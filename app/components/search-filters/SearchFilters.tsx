@@ -1,11 +1,5 @@
 import React from "react";
-
-interface SearchFiltersProps {
-  races: string[];
-  genders: string[];
-  handleSetRaceFilter: (value: string) => void;
-  handleSetGenderFilter: (value: string) => void;
-}
+import { SearchFiltersProps } from "~/types";
 
 const SearchFilters: React.FC<SearchFiltersProps> = ({
   races,

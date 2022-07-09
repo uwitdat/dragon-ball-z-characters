@@ -2,13 +2,7 @@ import React, { useState, useMemo } from "react";
 import { CharacterObj } from "~/types";
 import Character from "~/components/character";
 import SearchFilters from "../search-filters";
-
-interface PageProps {
-  chars: CharacterObj[];
-  races: string[];
-  genders: string[];
-  pageNum: number;
-}
+import { PageProps } from "~/types";
 
 const Page: React.FC<PageProps> = ({ chars, races, genders, pageNum }) => {
   const [filterRaceValue, setFilterRaceValue] = useState<string | null>(null);

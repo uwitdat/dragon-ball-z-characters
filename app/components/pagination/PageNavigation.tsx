@@ -1,11 +1,5 @@
 import React from "react";
-
-interface PageNavProps {
-  currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  lastPageNumber: number;
-  pages: number[];
-}
+import { PageNavProps } from "~/types";
 
 const PageNavigation: React.FC<PageNavProps> = ({
   currentPage,

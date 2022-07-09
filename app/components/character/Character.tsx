@@ -1,10 +1,6 @@
 import React from "react";
-import { CharacterObj } from "~/types";
+import { CharacterProps } from "~/types";
 import { Link } from "@remix-run/react";
-
-interface CharacterProps {
-  character: CharacterObj;
-}
 
 const Character: React.FC<CharacterProps> = ({ character }) => {
   const { id, name, sprite } = character;

@@ -36,3 +36,35 @@ export interface PaginatedChars {
   posts: CharacterObj[];
   page: number;
 }
+
+/* =====================================
+================= PROPS ================
+======================================== */
+export interface SearchFiltersProps {
+  races: string[];
+  genders: string[];
+  handleSetRaceFilter: (value: string) => void;
+  handleSetGenderFilter: (value: string) => void;
+}
+
+export interface PageProps {
+  chars: CharacterObj[];
+  races: string[];
+  genders: string[];
+  pageNum: number;
+}
+
+export interface CharacterProps {
+  character: CharacterObj;
+}
+
+export interface SearchProps {
+  result: [] | undefined;
+}
+
+export interface PageNavProps {
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  lastPageNumber: number;
+  pages: number[];
+}

@@ -3,7 +3,7 @@ import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
 import { CharacterObj, CharacterData, PaginatedChars } from "~/types";
-import { fetchCharacters, fetchTableData, searchChars } from "~/API";
+import { fetchCharacters, fetchTableData } from "~/API";
 import { paginate } from "../utils/helpers.js";
 import { Page, PageNavigation } from "~/components/pagination";
 import { useFetcher } from "@remix-run/react";
