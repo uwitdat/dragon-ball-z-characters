@@ -3,9 +3,11 @@ import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
 import { CharacterObj, CharacterData, PaginatedChars } from "~/types";
-import { fetchCharacters, fetchTableData } from "~/API";
+import { fetchCharacters, fetchTableData, searchChars } from "~/API";
 import { paginate } from "../utils/helpers.js";
 import { Page, PageNavigation } from "~/components/pagination";
+import { useFetcher } from "@remix-run/react";
+import Search from "~/components/search";
 
 export const loader: LoaderFunction = async (): Promise<
   CharacterData | any
@@ -26,24 +28,38 @@ export const loader: LoaderFunction = async (): Promise<
 
 const Landing: React.FC = () => {
   const CHARS_PER_PAGE = 6;
+  const fetcher = useFetcher();
 
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
+
   let { characters, races, genders } = useLoaderData();
 
   const paginatedChars: PaginatedChars[] = paginate(characters, CHARS_PER_PAGE);
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const lastPageNumber = paginatedChars[paginatedChars.length - 1].page;
   const pages = paginatedChars.map((data) => data.page);
 
+  const handleSearch = async (value: string) => {
+    if (value === "") {
+      setSearch("");
+      fetcher.data = undefined;
+    } else {
+      fetcher.load(`/query?q=${value}`);
+      setSearch(value);
+    }
+  };
+
+  const queryRes = fetcher.data;
   return (
     <div>
       <input
         placeholder="Search a character..."
-        value={search}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setSearch(e.target.value)
+          handleSearch(e.target.value)
         }
+        value={search}
       />
+      <Search result={queryRes} search={search} />
 
       <Page
         chars={paginatedChars[currentPage - 1].posts}

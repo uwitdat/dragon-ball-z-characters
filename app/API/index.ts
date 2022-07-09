@@ -91,3 +91,16 @@ export async function checkNext(cursor: string) {
     return err.message;
   }
 }
+
+export async function searchChars(query: any) {
+  const getCharsByName = await db.character.findMany({
+    where: {
+      name: { contains: query },
+    },
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+  return getCharsByName;
+}

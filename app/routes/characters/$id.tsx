@@ -1,7 +1,7 @@
 import React from "react";
 import { fetchOne } from "~/API";
 import { useLoaderData } from "@remix-run/react";
-import { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { CharacterObj } from "~/types";
 
 export const loader: LoaderFunction = async ({
@@ -31,6 +31,17 @@ const Name: React.FC = () => {
       <p>Special Move: {specialMove || "None"}</p>
     </section>
   );
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  const { character } = data;
+
+  return {
+    charset: "utf-8",
+    description: `More details about DBZ character ${character.name}`,
+    title: `DBZ Character ${character.name}`,
+    viewport: "width=device-width,initial-scale=1",
+  };
 };
 
 export default Name;

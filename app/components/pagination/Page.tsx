@@ -82,7 +82,7 @@ const Page: React.FC<PageProps> = ({ chars, races, genders, pageNum }) => {
           ))}
         </ul>
       ) : (
-        <h5>No match found.</h5>
+        <h5>No results found.</h5>
       )}
     </div>
   );

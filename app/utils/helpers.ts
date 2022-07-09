@@ -6,14 +6,9 @@ export function paginate(array: [], postsPerPage: number) {
   let page = 1;
 
   while (iterations) {
-    let next;
     const posts = array.slice(start, end);
-    if (iterations === 1) {
-      next = false;
-    } else {
-      next = true;
-    }
-    const postsObj = { page, posts, next };
+    const postsObj = { page, posts };
+
     paginatedList.push(postsObj);
     page++;
     start = start + postsPerPage;

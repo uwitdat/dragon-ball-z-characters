@@ -35,5 +35,4 @@ export interface FetchObject {
 export interface PaginatedChars {
   posts: CharacterObj[];
   page: number;
-  next: boolean;
 }
