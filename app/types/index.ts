@@ -21,14 +21,13 @@ type RaceObj = {
 type GenderObj = {
   race: string | null;
 };
-
 export interface TableData {
   races: (string | null)[];
   genders: (string | null)[];
 }
 
 export interface FetchObject {
-  characters: CharacterObj[];
+  characters: PaginatedChars[];
   next: string | null;
 }
 

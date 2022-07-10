@@ -1,4 +1,6 @@
-export function paginate(array: [], postsPerPage: number) {
+import { CharacterObj } from "~/types";
+
+export function paginate(array: CharacterObj[], postsPerPage: number) {
   let paginatedList = [];
   let iterations = Math.ceil(array.length / postsPerPage);
   let start = 0;

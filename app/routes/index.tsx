@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
 import { CharacterObj, CharacterData, PaginatedChars } from "~/types";
 import { fetchCharacters, fetchTableData } from "~/API";
-import { paginate } from "../utils/helpers.js";
 import { Page, PageNavigation } from "~/components/pagination";
 import { useFetcher } from "@remix-run/react";
 import Search from "~/components/search";
@@ -27,17 +26,15 @@ export const loader: LoaderFunction = async (): Promise<
 };
 
 const Landing: React.FC = () => {
-  const CHARS_PER_PAGE = 6;
-  const fetcher = useFetcher();
-
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
 
   let { characters, races, genders } = useLoaderData();
 
-  const paginatedChars: PaginatedChars[] = paginate(characters, CHARS_PER_PAGE);
-  const lastPageNumber = paginatedChars[paginatedChars.length - 1].page;
-  const pages = paginatedChars.map((data) => data.page);
+  const lastPageNumber = characters[characters.length - 1].page;
+  const pages = characters.map((data: PaginatedChars) => data.page);
+
+  const fetcher = useFetcher();
 
   const handleSearch = async (value: string) => {
     if (value === "") {
@@ -61,7 +58,7 @@ const Landing: React.FC = () => {
       {search.length > 0 && <Search result={fetcher.data} />}
 
       <Page
-        chars={paginatedChars[currentPage - 1].posts}
+        chars={characters[currentPage - 1].posts}
         races={races}
         genders={genders}
         pageNum={currentPage}

@@ -1,3 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.shadow-custom {
+    box-shadow: rgba(17, 12, 46, 0.283) 0px 48px 100px 0px;
+}
+
+.stroke-custom {
+    text-shadow: 4px 3px 0px #DADFF7;
+}
+
+.img-hover {
+    opacity: 0;
+    transition: opacity 350ms ease;
+    cursor: pointer;
+}
+
+.img-hover:hover {
+    opacity: .85;
+}
+
+button{
+    transition: all ease 350ms;
+}
+
+.nav-trans {
+    transition: all 350ms ease;
+}
+.nav-hover {
+    background-color: #dadff73a;
+}

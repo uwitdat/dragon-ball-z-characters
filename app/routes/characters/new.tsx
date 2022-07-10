@@ -13,10 +13,10 @@ export const action: ActionFunction = async ({ request }) => {
   const data: any = { name, race, specialMove, gender, sprite };
 
   try {
-    await db.character.create({
+    const newChar = await db.character.create({
       data,
     });
-    return redirect("/");
+    return redirect(`/characters/${newChar.id}`);
   } catch (err: any) {
     console.log(err.message);
     return null;

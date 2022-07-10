@@ -1,5 +1,8 @@
 import { db } from "~/utils/db.server";
-import { TableData, CharacterObj, FetchObject } from "~/types";
+import { TableData, CharacterObj, FetchObject, PaginatedChars } from "~/types";
+import { paginate } from "~/utils/helpers";
+
+const CHARS_PER_PAGE = 6;
 
 export async function fetchTableData(): Promise<TableData> {
   try {
@@ -26,8 +29,13 @@ export async function fetchCharacters(): Promise<FetchObject> {
     const lastEntry = characters[characters.length - 1].id;
     const next = await checkNext(lastEntry);
 
-    const data = {
+    const paginatedChars: PaginatedChars[] = paginate(
       characters,
+      CHARS_PER_PAGE
+    );
+
+    const data = {
+      characters: paginatedChars,
       next,
     };
     return data;
@@ -39,7 +47,7 @@ export async function fetchCharacters(): Promise<FetchObject> {
 export async function fetchMoreCharacters(
   count: number,
   cursor: string | null | any
-): Promise<FetchObject> {
+): Promise<any> {
   try {
     const characters = await db.character.findMany({
       take: count,

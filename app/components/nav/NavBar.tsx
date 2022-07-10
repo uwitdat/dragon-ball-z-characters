@@ -1,19 +1,36 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "@remix-run/react";
-import DBZLOGO from "../../assets/dbzlogo.png";
+import DBZLOGO from "../../assets/dbz-logo.png";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-const NavBar = () => {
+const NavBar: React.FC = () => {
+  const [isScrolling, setIsScrolling] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", () =>
+        setIsScrolling(window.pageYOffset > 50)
+      );
+    }
+  }, []);
+
+  const navClass =
+    "sticky top-0 px-5 bg-lav z-20 flex items-center justify-between border-b border-dark border-opacity-20 nav-trans";
+  const navClassHover = "border-opacity-0 nav-trans nav-hover";
+
   return (
-    <nav className="sticky top-0 px-5 bg-blue-900 z-20 flex items-center justify-between">
+    <nav
+      className={isScrolling ? `${navClass} ${navClassHover}` : `${navClass}`}
+    >
       <Link to="/">
         <img
           src={DBZLOGO}
           alt={"dragon ball z logo"}
-          className="w-20 h-20 inline"
+          className="w-30 h-20 inline"
         />
       </Link>
       <Link to="/characters/new">
-        <AiOutlinePlusCircle className="text-3xl text-white cursor-pointer" />
+        <AiOutlinePlusCircle className="text-3xl text-dark cursor-pointer" />
       </Link>
     </nav>
   );

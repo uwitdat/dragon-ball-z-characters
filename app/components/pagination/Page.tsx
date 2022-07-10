@@ -54,7 +54,7 @@ const Page: React.FC<PageProps> = ({ chars, races, genders, pageNum }) => {
         handleSetGenderFilter={handleSetGenderFilter}
       />
       {dbzChars.length ? (
-        <ul className="relative flex flex-wrap gap-4 p-5">
+        <ul className="relative flex flex-wrap gap-4 p-5 justify-evenly">
           {dbzChars.map((character: CharacterObj) => (
             <Character character={character} key={character.id} />
           ))}
