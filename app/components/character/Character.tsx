@@ -13,7 +13,11 @@ const Character: React.FC<CharacterProps> = ({ character }) => {
           {name}
         </h1>
 
-        <img src={sprite} className="w-80 h-80 object-cover rounded-3xl" />
+        <img
+          src={sprite}
+          alt={`Dbz character named ${name}`}
+          className="w-80 h-80 object-cover rounded-3xl"
+        />
         <div className="bg-black w-80 h-80 object-cover rounded-3xl grid place-items-center absolute bottom-3 img-hover">
           <Link to={`/characters/${id}`}>
             <div className="flex flex-col items-center">

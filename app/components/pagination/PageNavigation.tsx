@@ -8,20 +8,35 @@ const PageNavigation: React.FC<PageNavProps> = ({
   pages,
 }) => {
   return (
-    <div className="flex">
-      {currentPage === 1 ? null : (
-        <p onClick={() => setCurrentPage(currentPage - 1)}>Back</p>
-      )}
+    <nav className="flex p-7 w-full justify-center font-prim text-2xl text-dark">
+      <button
+        className="mr-4 border-2 border-dark px-5 pt-1"
+        onClick={() => setCurrentPage(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        Back
+      </button>
 
       {pages.map((page: number) => (
-        <button onClick={() => setCurrentPage(page)} key={page}>
+        <button
+          className={
+            page === currentPage ? "px-4 bg-lav border-2 border-dark" : "px-4"
+          }
+          onClick={() => setCurrentPage(page)}
+          key={page}
+        >
           {page}
         </button>
       ))}
-      {currentPage === lastPageNumber ? null : (
-        <p onClick={() => setCurrentPage(currentPage + 1)}>Next </p>
-      )}
-    </div>
+
+      <button
+        className="ml-4 border-2 border-dark px-5 pt-1"
+        onClick={() => setCurrentPage(currentPage + 1)}
+        disabled={currentPage === lastPageNumber}
+      >
+        Next{" "}
+      </button>
+    </nav>
   );
 };
 

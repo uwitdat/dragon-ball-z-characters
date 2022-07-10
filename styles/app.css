@@ -40,3 +40,7 @@ button{
 .nav-hover {
     background-color: #dadff73a;
 }
+
+button:disabled {
+    opacity: .2;
+}
