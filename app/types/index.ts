@@ -44,6 +44,7 @@ export interface SearchFiltersProps {
   genders: string[];
   handleSetRaceFilter: (value: string) => void;
   handleSetGenderFilter: (value: string) => void;
+  activeFilters: number;
 }
 
 export interface PageProps {

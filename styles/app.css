@@ -44,3 +44,9 @@ button{
 button:disabled {
     opacity: .2;
 }
+
+input::placeholder{
+    font-family: "Bebas Neue", serif;
+    opacity: .7;
+    
+}
