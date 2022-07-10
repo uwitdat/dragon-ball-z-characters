@@ -2,7 +2,7 @@ import { db } from "~/utils/db.server";
 import { TableData, CharacterObj, FetchObject, PaginatedChars } from "~/types";
 import { paginate } from "~/utils/helpers";
 
-const CHARS_PER_PAGE = 6;
+const CHARS_PER_PAGE = 8;
 
 export async function fetchTableData(): Promise<TableData> {
   try {

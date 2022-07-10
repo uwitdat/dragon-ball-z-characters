@@ -4,17 +4,23 @@ import Character from "~/components/character";
 import SearchFilters from "../search-filters";
 import { PageProps } from "~/types";
 
-const Page: React.FC<PageProps> = ({ chars, races, genders, pageNum }) => {
-  const [filterRaceValue, setFilterRaceValue] = useState<string | null>(null);
+const Page: React.FC<PageProps> = ({ chars, races, genders }) => {
+  const [filterRaceValue, setFilterRaceValue] = useState<{
+    [key: string]: boolean;
+  }>({});
   const [filterGenderValue, setFilterGenderValue] = useState<string | null>(
     null
   );
 
   const handleSetRaceFilter = (value: string) => {
-    if (filterRaceValue === value) {
-      setFilterRaceValue(null);
+    const raceFiltersClone = { ...filterRaceValue };
+
+    if (filterRaceValue[value]) {
+      delete raceFiltersClone[value];
+      setFilterRaceValue(raceFiltersClone);
     } else {
-      setFilterRaceValue(value);
+      raceFiltersClone[value] = true;
+      setFilterRaceValue(raceFiltersClone);
     }
   };
 
@@ -27,18 +33,27 @@ const Page: React.FC<PageProps> = ({ chars, races, genders, pageNum }) => {
   };
 
   const dbzChars = useMemo<CharacterObj[]>(() => {
-    if (chars && filterGenderValue && filterRaceValue) {
-      return chars.filter(
-        (char: CharacterObj) =>
-          char.race === filterRaceValue && char.gender === filterGenderValue
+    if (chars && filterGenderValue && Object.keys(filterRaceValue).length) {
+      return chars.filter((char: CharacterObj) =>
+        char.race
+          ? filterRaceValue[char.race] && char.gender === filterGenderValue
+          : char.gender === filterGenderValue
       );
-    } else if (chars && filterGenderValue && !filterRaceValue) {
+    } else if (
+      chars &&
+      filterGenderValue &&
+      !Object.keys(filterRaceValue).length
+    ) {
       return chars.filter(
         (char: CharacterObj) => char.gender === filterGenderValue
       );
-    } else if (chars && !filterGenderValue && filterRaceValue) {
-      return chars.filter(
-        (char: CharacterObj) => char.race === filterRaceValue
+    } else if (
+      chars &&
+      !filterGenderValue &&
+      Object.keys(filterRaceValue).length
+    ) {
+      return chars.filter((char: CharacterObj) =>
+        char.race ? filterRaceValue[char.race] : null
       );
     } else {
       return chars;

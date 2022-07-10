@@ -15,7 +15,7 @@ const NavBar: React.FC = () => {
   }, []);
 
   const navClass =
-    "sticky top-0 px-5 bg-lav z-20 flex items-center justify-between border-b border-dark border-opacity-20 nav-trans";
+    "sticky top-0 px-5 bg-lav z-20 flex items-center justify-between border-b border-black border-opacity-10 nav-trans";
   const navClassHover = "border-opacity-0 nav-trans nav-hover";
 
   return (
