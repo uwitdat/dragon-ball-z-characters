@@ -7,11 +7,13 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
   handleSetRaceFilter,
   handleSetGenderFilter,
   activeFilters,
+  filterGenderValue,
+  filterRaceValue,
 }) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
-    <div>
+    <div className="relative">
       <button
         onClick={() => setShowMenu(!showMenu)}
         className="font-prim border bg-lav w-32 flex justify-between text-lg py-1 px-2 rounded-lg items-center"
@@ -20,30 +22,47 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
         Filters: <p className="text-dark text-lg">{activeFilters}</p>
       </button>
       {showMenu ? (
-        <React.Fragment>
-          <h5>Race:</h5>
+        <section className="absolute z-10 bg-white border p-3 mt-2 w-60">
+          <div className="text-center">
+            <h5 className="font-prim text-3xl text-dark border-b border-gray-200">
+              Race
+            </h5>
+          </div>
+
           {races.map((race: string) => (
-            <p
-              className="inline"
+            <button
+              className={
+                filterRaceValue[race]
+                  ? "block my-2 bg-gray-200 pl-3 py-1 font-prim text-dark w-full text-lg"
+                  : "block my-2 pl-3 py-1 font-prim text-dark w-full text-lg"
+              }
               key={race}
               onClick={() => handleSetRaceFilter(race)}
             >
               {" "}
               {race}
-            </p>
+            </button>
           ))}
-          <h5>Gender:</h5>
+          <div className="text-center">
+            <h5 className="font-prim text-3xl mt-5 text-dark border-b border-gray-200">
+              Gender
+            </h5>
+          </div>
           {genders.map((gender: string) => (
-            <p
-              className="inline"
+            <button
+              className={
+                gender === filterGenderValue
+                  ? "block my-2 bg-gray-200 pl-3 py-1 font-prim text-dark w-full text-lg"
+                  : "block my-2 pl-3 py-1 font-prim text-dark w-full text-lg"
+              }
               key={gender}
               onClick={() => handleSetGenderFilter(gender)}
             >
               {" "}
               {gender}
-            </p>
+            </button>
           ))}
-        </React.Fragment>
+        </section>
       ) : null}
     </div>
   );

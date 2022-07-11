@@ -98,8 +98,10 @@ const Page: React.FC<PageProps> = ({ chars, races, genders }) => {
           genders={genders}
           handleSetRaceFilter={handleSetRaceFilter}
           handleSetGenderFilter={handleSetGenderFilter}
+          filterGenderValue={filterGenderValue}
+          filterRaceValue={filterRaceValue}
         />
-        <div className="ml-4 border px-2 w-80 rounded-md flex items-center">
+        <div className="ml-4 border px-2 w-80 rounded-md flex items-center relative">
           <AiOutlineSearch className="text-lg" style={{ opacity: ".3" }} />
           <input
             className="w-full h-full p-2 outline-none"
@@ -112,7 +114,6 @@ const Page: React.FC<PageProps> = ({ chars, races, genders }) => {
         </div>
       </div>
       {search.length > 0 && <Search result={fetcher.data} />}
-
       {dbzChars.length ? (
         <ul className="relative flex flex-wrap gap-4 p-5 justify-evenly">
           {dbzChars.map((character: CharacterObj) => (
@@ -120,7 +121,9 @@ const Page: React.FC<PageProps> = ({ chars, races, genders }) => {
           ))}
         </ul>
       ) : (
-        <h5>No results found.</h5>
+        <div className="grid place-items-center">
+          <h5 className="py-64 font-prim text-3xl">No results found.</h5>
+        </div>
       )}
     </div>
   );
