@@ -6,6 +6,7 @@ import { PageProps } from "~/types";
 import Search from "~/components/search";
 import { useFetcher } from "@remix-run/react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { MdOutlineClear } from "react-icons/md";
 
 const Page: React.FC<PageProps> = ({ chars, races, genders }) => {
   const [activeFilters, setActiveFilters] = useState<number>(0);
@@ -89,6 +90,8 @@ const Page: React.FC<PageProps> = ({ chars, races, genders }) => {
     }
   };
 
+  const handleClearInput = () => setSearch("");
+
   return (
     <div>
       <div className="flex py-4 px-10">
@@ -111,6 +114,13 @@ const Page: React.FC<PageProps> = ({ chars, races, genders }) => {
             }
             value={search}
           />
+          {search.length ? (
+            <MdOutlineClear
+              onClick={handleClearInput}
+              className="text-lg cursor-pointer"
+              style={{ opacity: ".3" }}
+            />
+          ) : null}
         </div>
       </div>
       {search.length > 0 && <Search result={fetcher.data} />}

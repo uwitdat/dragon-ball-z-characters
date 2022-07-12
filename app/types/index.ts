@@ -12,6 +12,8 @@ export interface CharacterObj {
   specialMove: string | null;
   race: string | null;
   sprite: string;
+  spriteLrg: string;
+  description: string;
 }
 
 type RaceObj = {
