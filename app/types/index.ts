@@ -60,6 +60,7 @@ export interface PageProps {
 
 export interface CharacterProps {
   character: CharacterObj;
+  pageNum: number;
 }
 
 export interface SearchProps {

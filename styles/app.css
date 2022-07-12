@@ -8,10 +8,6 @@
     background-color: rgb(64, 64, 64);
 } */
 
-html {
-    scroll-behavior: smooth;
-  }
-
 .shadow-custom {
     box-shadow: rgba(17, 12, 46, 0.283) 0px 48px 100px 0px;
 }

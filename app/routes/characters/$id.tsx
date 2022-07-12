@@ -7,13 +7,17 @@ import { Link } from "@remix-run/react";
 import useMediaQuery from "~/hooks/useMediaQuery";
 
 export const loader: LoaderFunction = async ({
+  request,
   params,
 }): Promise<CharacterObj | any> => {
   let data;
 
+  const url = new URL(request.url);
+  const fromPage = url.searchParams.get("fromPage");
+
   try {
     const character = await fetchOne(params.id);
-    data = { character };
+    data = { character, fromPage };
   } catch (err: any) {
     console.log(err.message);
   }
@@ -21,7 +25,7 @@ export const loader: LoaderFunction = async ({
 };
 
 const Name: React.FC = () => {
-  const { character } = useLoaderData();
+  const { character, fromPage } = useLoaderData();
 
   const {
     name,
@@ -79,12 +83,12 @@ const Name: React.FC = () => {
               <p className="text-2xl">Special</p>
             </div>
             <div className="w-1/2 text-center">
-              <p className="text-2xl">{specialMove || " "}</p>
+              <p className="text-2xl">{specialMove || "None"}</p>
             </div>
           </div>
         </section>
       </div>
-      <Link to="/">
+      <Link to={fromPage ? `/?page=${fromPage}` : "/"}>
         <button className="absolute top-2 left-4 text-3xl font-prim text-gray-500">
           ←
         </button>

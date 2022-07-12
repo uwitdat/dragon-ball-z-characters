@@ -3,7 +3,7 @@ import { CharacterProps } from "~/types";
 import { Link } from "@remix-run/react";
 import GOKU_ICON from "~/assets/goku-icon.svg";
 
-const Character: React.FC<CharacterProps> = ({ character }) => {
+const Character: React.FC<CharacterProps> = ({ character, pageNum }) => {
   const { id, name, sprite } = character;
 
   return (
@@ -19,7 +19,7 @@ const Character: React.FC<CharacterProps> = ({ character }) => {
           className="w-80 h-80 object-cover rounded-3xl"
         />
         <div className="bg-black w-80 h-80 object-cover rounded-3xl grid place-items-center absolute bottom-3 img-hover">
-          <Link to={`/characters/${id}`}>
+          <Link to={`/characters/${id}?fromPage=${pageNum}`}>
             <div className="flex flex-col items-center">
               <img src={GOKU_ICON} className="w-32" />
               <p className="text-white mt-3">View More</p>

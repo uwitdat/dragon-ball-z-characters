@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
@@ -6,17 +6,20 @@ import { CharacterObj, CharacterData, PaginatedChars } from "~/types";
 import { fetchCharacters, fetchTableData } from "~/API";
 import { Page, PageNavigation } from "~/components/pagination";
 
-export const loader: LoaderFunction = async (): Promise<
-  CharacterData | any
-> => {
+export const loader: LoaderFunction = async ({
+  request,
+}): Promise<CharacterData | any> => {
   let data;
+
+  const url = new URL(request.url);
+  const page = url.searchParams.get("page");
 
   try {
     const charactersData = await fetchCharacters();
     const { characters, next } = charactersData;
     const { races, genders } = await fetchTableData();
 
-    data = { characters, races, genders, next };
+    data = { characters, races, genders, next, page };
   } catch (err: any) {
     console.log(err.message);
   }
@@ -24,12 +27,22 @@ export const loader: LoaderFunction = async (): Promise<
 };
 
 const Landing: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  let { characters, races, genders, page } = useLoaderData();
 
-  let { characters, races, genders } = useLoaderData();
+  const [currentPage, setCurrentPage] = useState<number>(
+    page ? Number(page) : 1
+  );
 
   const lastPageNumber = characters[characters.length - 1].page;
   const pages = characters.map((data: PaginatedChars) => data.page);
+
+  useEffect(() => {
+    if (page) {
+      setCurrentPage(Number(page));
+    } else {
+      setCurrentPage(1);
+    }
+  }, [page]);
 
   return (
     <div>

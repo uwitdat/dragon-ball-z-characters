@@ -8,7 +8,7 @@ import { useFetcher } from "@remix-run/react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdOutlineClear } from "react-icons/md";
 
-const Page: React.FC<PageProps> = ({ chars, races, genders }) => {
+const Page: React.FC<PageProps> = ({ chars, races, genders, pageNum }) => {
   const [activeFilters, setActiveFilters] = useState<number>(0);
   const [search, setSearch] = useState<string>("");
 
@@ -127,7 +127,11 @@ const Page: React.FC<PageProps> = ({ chars, races, genders }) => {
       {dbzChars.length ? (
         <ul className="relative flex flex-wrap gap-4 p-5 justify-evenly">
           {dbzChars.map((character: CharacterObj) => (
-            <Character character={character} key={character.id} />
+            <Character
+              character={character}
+              key={character.id}
+              pageNum={pageNum}
+            />
           ))}
         </ul>
       ) : (
